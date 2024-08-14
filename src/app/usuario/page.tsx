@@ -1,11 +1,9 @@
 import { Separator } from "@/components/ui/separator";
-import { fetchUsuarios } from "@/lib/fetchUsuarios";
+import { fetchUsuarios } from "@/lib/fetch/fetchUsuarios";
 
 const UserPage = async () => {
 
   const data = await fetchUsuarios();
-
-  console.log(data);
 
   const dataElements = data.map(usuario => {
     return (

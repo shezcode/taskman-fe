@@ -1,4 +1,4 @@
-import { Usuario } from "./types";
+import { Usuario } from "../types";
 
 export async function fetchUsuarios(): Promise<Usuario[]> {
   try{
