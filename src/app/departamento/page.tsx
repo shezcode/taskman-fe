@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { fetchDepartments, fetchDepByName } from "@/lib/fetch/fetchDepartments";
 import { Departamento } from "@/lib/types";
-import { Search } from "lucide-react";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { Search, X } from "lucide-react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 const DepartmentPage = () => {
 
@@ -17,19 +17,35 @@ const DepartmentPage = () => {
     setData(res);
   }
 
-  if (searchParam === ""){
+  useEffect(() => {
     getData();
-  }
+  }, [])
 
   const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let newdata = await fetchDepByName(searchParam);
-    setData(newdata);
+    if (searchParam === ""){
+      getData();
+    } else {
+      let newdata = await fetchDepByName(searchParam);
+      setData(newdata);
+    }
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchParam(e.target.value);
   }
+
+  const handleCancel = () => {
+    setSearchParam("");
+    getData();
+  }
+
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch(e as unknown as FormEvent<HTMLFormElement>);
+    }
+  };
 
   return (
     <div className="py-4 gap-4 flex flex-col items-center w-full ">
@@ -37,10 +53,17 @@ const DepartmentPage = () => {
         onSubmit={handleSearch}
         className="flex flex-row gap-0"
         action="">
-        <Input className="w-40" aria-label="Search" value={searchParam} onChange={handleChange}/>
-        <Button type="submit">
-          <Search />
-        </Button>
+        <div className="relative w-full">
+          {searchParam && (
+            <Button variant={"ghost"} onClick={handleCancel} className="absolute top-0 left-0 w-12">
+              <X className="w-full"/>
+            </Button>
+          )}
+          <Input className="w-80 px-12" aria-label="Search" value={searchParam} onChange={handleChange} onKeyDown={handleEnter} />
+          <Button type="submit" variant={"ghost"} className="absolute top-0 right-0">
+            <Search />
+          </Button>
+        </div>
       </form>
       <Separator />
       {data && (

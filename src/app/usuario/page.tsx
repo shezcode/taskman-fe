@@ -7,8 +7,8 @@ const UserPage = async () => {
   const data = await fetchUsuarios();
 
   return (
-    <div>
-      <Table>
+    <div className="mt-8 w-[60%] h-full flex flex-col items-center justify-center">
+      <Table className="border-slate border-[1.5px] rounded">
         <TableCaption className="mt-8">Lista de usuarios activos.</TableCaption>
           <TableHeader>
             <TableRow>
@@ -21,7 +21,7 @@ const UserPage = async () => {
           <TableBody>
             {data.map((usuario) => (
               <TableRow key={usuario.id_Usuario}>
-                <TableCell className="font-medium"><Link href={`/usuario/${usuario.id_Usuario}`}>{usuario.nombre}</Link></TableCell>
+                <TableCell className="font-medium"><Link className="hover:underline" href={`/usuario/${usuario.id_Usuario}`}>{usuario.nombre}</Link></TableCell>
                 <TableCell>{usuario.email}</TableCell>
                 <TableCell>{usuario.fe_alta}</TableCell>
                 <TableCell className="text-right">{usuario.departamento.nombre}</TableCell>
