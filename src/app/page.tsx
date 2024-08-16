@@ -1,17 +1,8 @@
+import { redirect } from 'next/navigation';
 
-export default function Home() {
+const HomePage = () => {
   return (
-    <div className="w-full h-full min-h-screen flex flex-col items-center py-8">
-      <main className="flex flex-row py-12 w-1/2 border-black border-2">
-        <div className="flex flex-col w-2/3">
-          <h1>taskMan</h1>
-          <h2>Your go-to task manager.</h2>
-        </div>
-        <div className="flex flex-col w-1/3">
-          <p>Some cringy description</p>
-        </div>
-          
-      </main>
-    </div>
-  );
+    redirect("/proyecto")
+  )
 }
+export default HomePage;

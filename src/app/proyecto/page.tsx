@@ -7,7 +7,7 @@ const ProjectPage = async () => {
   const data = await fetchProjects();
 
   return (
-    <div className="mt-8 w-[60%] h-full flex flex-col items-center justify-center">
+    <div className="border-[0.5px] border-slate rounded-lg p-4 mt-12 w-[60%] h-full flex flex-col items-center justify-center">
       <DataTable columns={columns} data={data}/>
     </div>
   );

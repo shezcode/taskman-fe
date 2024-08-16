@@ -6,6 +6,9 @@ export async function fetchUsuarios(): Promise<Usuario[]> {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
+      },
+      next: {
+        revalidate: 180
       }
     });
 
