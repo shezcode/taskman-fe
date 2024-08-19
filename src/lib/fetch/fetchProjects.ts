@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { Project } from "../types";
 
 export async function fetchProjects(): Promise<Project[]> {
@@ -22,7 +21,7 @@ export async function fetchProjects(): Promise<Project[]> {
 
   } catch (e){
     console.error("idek bro", e)
-    redirect("/")
+    throw e;
   }
 }
 

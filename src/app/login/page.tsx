@@ -19,16 +19,50 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import { dep, registerUser } from "@/lib/fetch/registerUser";
+import { DEPARTAMENTOS } from "@/lib/utils";
 import { Select } from "@radix-ui/react-select";
-import { useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 export default function Login() {
 
   const [password, setPassword] = useState("");
+  const [regPassword, setRegPassword] = useState("");
+  const [confirmRegPassword, setConfirmRegPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [tab, setTab] = useState("login")
+  const [regUser, setRegUser] = useState<{
+    nombre: string,
+    email: string,
+    password: string,
+    departamento: dep,
+  }>({
+    nombre: "",
+    email: "",
+    password: "",
+    departamento: "frontend"
+  })
+
+  useEffect(() => {
+    if (regPassword !== confirmRegPassword) {
+      setPasswordError("Las contraseñas no coinciden.")
+    } else {
+      setPasswordError("");
+    }
+    console.log(DEPARTAMENTOS.backend)
+  }, [regPassword, confirmRegPassword])
 
   const onTabChange = (value: string) => {
     setTab(value);
+  }
+
+  const handleSelect = (value: dep) => {
+    setRegUser((prev) => ({ ...prev, departamento: value }))
+  }
+
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    registerUser(regUser.nombre, regUser.email, regUser.password, regUser.departamento);
   }
 
   return (
@@ -52,64 +86,80 @@ export default function Login() {
             </div>
             <div className="space-y-1">
               <Label htmlFor="password">Contraseña</Label>
-              <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+              <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
           </CardContent>
           <CardFooter className="gap-4 flex flex-row justify-between">
             <Button>Login</Button>
             <CardDescription className="flex items-center flex-row gap-2">
-              <p className="px-0 italic">No tienes cuenta?</p>
               <Button variant={"link"} className="p-0" onClick={() => setTab("register")}>Registrate</Button>
             </CardDescription>
           </CardFooter>
         </Card>
       </TabsContent>
       <TabsContent value="register">
-        <Card>
-          <CardHeader>
-            <CardTitle>Unete a taskMan.</CardTitle>
-            <CardDescription>
-              Crea tu cuenta para poder empezar a disfrutar de nuestra aplicación.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nombre</Label>
-              <Input id="name" type="text" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Elige tu contraseña</Label>
-              <Input id="password" type="password" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password-confirm">Confirma tu contraseña</Label>
-              <Input id="password-confirm" type="password" />
-            </div>
+        <form method="post" onSubmit={handleRegister}>
+          <Card>
+            <CardHeader>
+              <CardTitle>Unete a taskMan.</CardTitle>
+              <CardDescription>
+                Crea tu cuenta para poder empezar a disfrutar de nuestra aplicación.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Nombre</Label>
+                <Input id="name" type="text"
+                  value={regUser.nombre}
+                  onChange={(e) => { setRegUser((prev) => ({ ...prev, nombre: e.target.value })) }}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email"
+                  value={regUser.email}
+                  onChange={(e) => { setRegUser((prev) => ({ ...prev, email: e.target.value })) }}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Elige tu contraseña</Label>
+                <PasswordInput id="password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password-confirm">Confirma tu contraseña</Label>
+                {passwordError 
+                  ? 
+                    <PasswordInput className="border-[1.5px] border-red-500" id="password-confirm" value={confirmRegPassword} onChange={(e) => setConfirmRegPassword(e.target.value)} />
+                  : 
+                    <PasswordInput id="password-confirm" value={confirmRegPassword} onChange={(e) => setConfirmRegPassword(e.target.value)} />
+                }
+                </div>
 
-            <div className="space-y-4">
-              <Select name="departamento">
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Departamento" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Elige tu departamento</SelectLabel>
-                    <SelectItem value="frontend">Frontend</SelectItem>
-                    <SelectItem value="backend">Backend</SelectItem>
-                    <SelectItem value="ui">UI/UX</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button>Crea tu cuenta</Button>
-          </CardFooter>
-        </Card>
+              <div className="space-y-4">
+                <Select 
+                  name="departamento"
+                  value={regUser.departamento}
+                  onValueChange={handleSelect}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Departamento" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Elige tu departamento</SelectLabel>
+                      <SelectItem value="frontend">Frontend</SelectItem>
+                      <SelectItem value="backend">Backend</SelectItem>
+                      <SelectItem value="ui">UI/UX</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button type="submit" disabled={passwordError ? true : false}>Crea tu cuenta</Button>
+            </CardFooter>
+          </Card>
+        </form>
       </TabsContent>
     </Tabs>
   )
