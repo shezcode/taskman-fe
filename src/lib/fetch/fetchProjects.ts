@@ -2,7 +2,7 @@ import { Project } from "../types";
 
 export async function fetchProjects(): Promise<Project[]> {
   try{
-    const res = await fetch("http://localhost:8081/proyecto/getAll", {
+    const res = await fetch("http://localhost:8888/taskMan/getProjects", {
       method: 'GET',
       cache: 'no-cache',
       headers: {
@@ -27,7 +27,7 @@ export async function fetchProjects(): Promise<Project[]> {
 
 export async function fetchProjectsById(id: string): Promise<Project[]> {
   try{
-    const res = await fetch(`http://localhost:8081/proyecto/${id}`, {
+    const res = await fetch(`http://localhost:8888/taskMan/getProjects?id=${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ export async function fetchProjectsById(id: string): Promise<Project[]> {
 
 export async function fetchProjectsByUserId(user_id: string): Promise<Project[]> {
   try{
-    const res = await fetch(`http://localhost:8081/proyecto/${user_id}`, {
+    const res = await fetch(`http://localhost:8888/taskMan/getProjects?user_id=${user_id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

@@ -20,11 +20,11 @@ const UserPage = async () => {
           </TableHeader>
           <TableBody>
             {data.map((usuario) => (
-              <TableRow key={usuario.id_Usuario}>
-                <TableCell className="font-medium"><Link className="hover:underline" href={`/usuario/${usuario.id_Usuario}`}>{usuario.nombre}</Link></TableCell>
-                <TableCell>{usuario.email}</TableCell>
-                <TableCell>{usuario.fe_alta}</TableCell>
-                <TableCell className="text-right">{usuario.departamento.nombre}</TableCell>
+              <TableRow key={usuario.Id_Usuario}>
+                <TableCell className="font-medium"><Link className="hover:underline" href={`/usuario/${usuario.Id_Usuario}`}>{usuario.Nombre}</Link></TableCell>
+                <TableCell>{usuario.Email}</TableCell>
+                <TableCell>{usuario.Fe_alta}</TableCell>
+                <TableCell className="text-right">{usuario.departamento.Nombre}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -19,13 +19,10 @@ export async function registerUser(nombre: string, email: string, password: stri
         break;
   }
 
-
-  console.log(id_Dep);
-
   const date = getCurrentDateTimestamp(); 
 
   try {
-    const response = await fetch('http://localhost:8081/usuario/crear', {
+    const response = await fetch('http://localhost:8888/taskMan/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -39,7 +36,7 @@ export async function registerUser(nombre: string, email: string, password: stri
 
     const data = await response.json();
 
-    console.log(data);
+    return data
 
   } catch (e){
     console.error(e)

@@ -1,10 +1,10 @@
 export async function loginUser(email: string, password: string) {
-  const response = await fetch('http://localhost:8081/usuario/login', {
+  const response = await fetch('http://localhost:8888/taskMan/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email: email, password: password}),
   });
 
   if (!response.ok) {
@@ -12,5 +12,5 @@ export async function loginUser(email: string, password: string) {
   }
 
   const data = await response.json();
-  return data; // Assumes response includes user info or token
+  return data; 
 }

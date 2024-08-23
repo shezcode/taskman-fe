@@ -1,30 +1,30 @@
 export type Usuario = {
-  id_Usuario: string,
-  nombre: string,
-  email: string,
+  Id_Usuario: string,
+  Nombre: string,
+  Email: string,
   Password: string,
-  fe_alta: string,
+  Fe_alta: string,
   departamento: Departamento
 }
 
 export type Departamento = {
-  id_Departamento: string,
-  nombre: string,
-  email: string,
-  fe_creacion: string,
-  presupuesto: number
+  Id_Departamento: string,
+  Nombre: string,
+  Email: string,
+  Fe_creacion: string,
+  Presupuesto: number
 }
 
 export type Project = {
-  id_Proyecto: string,
-  nombre: string,
-  descripcion: string,
-  fe_creacion: string,
-  fe_actualizacion: string,
-  fe_inicio: string,
-  fe_fin: string,
-  estado: "En progreso" | "Finalizado" | "Pendiente" | "Cancelado",
-  prioridad: "Baja" | "Media" | "Alta" | "Urgente",
-  presupuesto: number,
+  Id_Proyecto: string,
+  Nombre: string,
+  Descripcion: string,
+  Fe_creacion: string,
+  Fe_actualizacion: string,
+  Fe_inicio: string,
+  Fe_fin: string,
+  Estado: "En progreso" | "Finalizado" | "Pendiente" | "Cancelado",
+  Prioridad: "Baja" | "Media" | "Alta" | "Urgente",
+  Presupuesto: number,
   usuario: Usuario
 }

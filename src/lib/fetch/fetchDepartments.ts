@@ -2,12 +2,11 @@ import { Departamento } from "../types";
 
 export async function fetchDepartments(): Promise<Departamento[]> {
   try{
-    const res = await fetch("http://localhost:8081/dep/getAll", {
+    const res = await fetch("http://localhost:8888/taskMan/getDepBy", {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       },
-      cache: 'force-cache'
     }, );
 
     if (!res.ok){
@@ -27,7 +26,7 @@ export async function fetchDepartments(): Promise<Departamento[]> {
 
 export async function fetchDepByName(name: string): Promise<Departamento[]> {
   try{
-    const res = await fetch(`http://localhost:8081/dep/${name}`, {
+    const res = await fetch(`http://localhost:8888/taskMan/getDepBy?name=${name}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

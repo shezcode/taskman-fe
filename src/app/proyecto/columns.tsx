@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowUpDown } from "lucide-react"
+import { ArrowUpDown, Trash2 } from "lucide-react"
 import { Project } from "@/lib/types"
 import { ColumnDef } from "@tanstack/react-table"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -39,19 +39,19 @@ export const columns: ColumnDef<Project>[] = [
     ),
   },
   {
-    accessorKey: "estado",
+    accessorKey: "Estado",
     header: "Estado",
   },
   {
-    accessorKey: "nombre",
+    accessorKey: "Nombre",
     header: "Nombre",
   },
   {
-    accessorKey: "prioridad",
+    accessorKey: "Prioridad",
     header: "Prioridad",
   },
   {
-    accessorKey: "presupuesto",
+    accessorKey: "Presupuesto",
     header: ({ column }) => {
       return (
         <Button 
@@ -64,7 +64,7 @@ export const columns: ColumnDef<Project>[] = [
       )
     },
     cell: ({row}) => {
-      const amount = parseFloat(row.getValue("presupuesto"))
+      const amount = parseFloat(row.getValue("Presupuesto"))
       const formatted = new Intl.NumberFormat("es-ES", {
         style: "currency",
         currency: "EUR",
@@ -89,13 +89,13 @@ export const columns: ColumnDef<Project>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Mas acciones</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(accion.id_Proyecto)}
+              onClick={() => navigator.clipboard.writeText(accion.Id_Proyecto)}
               className="hover:cursor-pointer"
             >
               Copiar ID del proyecto
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {window.location.href = `/proyecto/id/${accion.id_Proyecto}`}}>Ver proyecto</DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {window.location.href = `/proyecto/id/${accion.Id_Proyecto}`}}>Ver proyecto</DropdownMenuItem>
             <Dialog>
               <DialogTrigger>
                 <DropdownMenuItem className="hover:cursor-pointer" onSelect={(e) => e.preventDefault()}>
@@ -117,6 +117,18 @@ export const columns: ColumnDef<Project>[] = [
         </DropdownMenu>
       )
     },
+  },
+  {
+    id: "delButton",
+    cell: ({row}) => {
+      return (
+        <Button 
+          className="p-2 h-8"
+          variant={"ghost"}>
+          <Trash2 />
+        </Button>
+      );
+    }
   },
 
 ]

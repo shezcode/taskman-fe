@@ -19,13 +19,17 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import { useToast } from "@/components/ui/use-toast";
+import { loginUser } from "@/lib/fetch/loginUser";
 import { dep, registerUser } from "@/lib/fetch/registerUser";
 import { DEPARTAMENTOS } from "@/lib/utils";
 import { Select } from "@radix-ui/react-select";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 
 export default function Login() {
 
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [regPassword, setRegPassword] = useState("");
   const [confirmRegPassword, setConfirmRegPassword] = useState("");
@@ -56,13 +60,34 @@ export default function Login() {
     setTab(value);
   }
 
+  const { toast } = useToast();
+
+  const router = useRouter();
+
   const handleSelect = (value: dep) => {
     setRegUser((prev) => ({ ...prev, departamento: value }))
   }
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    registerUser(regUser.nombre, regUser.email, regUser.password, regUser.departamento);
+    const res = await registerUser(regUser.nombre, regUser.email, regUser.password, regUser.departamento);
+    toast({
+      title: "Usuario registrado correctamente",
+      description: "Accede para comenzar a utilizar tu cuenta"
+    })
+    router.push("/usuario")
+  }
+
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(email, password)
+    loginUser(email, password);
+    //toast({
+    //  title: "Login con exito",
+    //  description: "Bienvenido"
+    //})
+    //router.push("/proyecto")
+    
   }
 
   return (
@@ -72,30 +97,32 @@ export default function Login() {
         <TabsTrigger value="register">Crea tu cuenta</TabsTrigger>
       </TabsList>
       <TabsContent value="login">
-        <Card>
-          <CardHeader>
-            <CardTitle>Login</CardTitle>
-            <CardDescription>
-              Accede a tu cuenta personal.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" placeholder="example@email.com" />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="password">Contraseña</Label>
-              <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            </div>
-          </CardContent>
-          <CardFooter className="gap-4 flex flex-row justify-between">
-            <Button>Login</Button>
-            <CardDescription className="flex items-center flex-row gap-2">
-              <Button variant={"link"} className="p-0" onClick={() => setTab("register")}>Registrate</Button>
-            </CardDescription>
-          </CardFooter>
-        </Card>
+        <form method="post" onSubmit={handleLogin}>
+          <Card>
+            <CardHeader>
+              <CardTitle>Login</CardTitle>
+              <CardDescription>
+                Accede a tu cuenta personal.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="space-y-1">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" placeholder="example@email.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="password">Contraseña</Label>
+                <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              </div>
+            </CardContent>
+            <CardFooter className="gap-4 flex flex-row justify-between">
+              <Button type="submit">Login</Button>
+              <CardDescription className="flex items-center flex-row gap-2">
+                <Button variant={"link"} className="p-0" onClick={() => setTab("register")}>Registrate</Button>
+              </CardDescription>
+            </CardFooter>
+          </Card>
+        </form>
       </TabsContent>
       <TabsContent value="register">
         <form method="post" onSubmit={handleRegister}>
@@ -129,10 +156,14 @@ export default function Login() {
                 <Label htmlFor="password-confirm">Confirma tu contraseña</Label>
                 {passwordError 
                   ? 
-                    <PasswordInput className="border-[1.5px] border-red-500" id="password-confirm" value={confirmRegPassword} onChange={(e) => setConfirmRegPassword(e.target.value)} />
+                    <div>
+                      <PasswordInput className="border-[1.5px] border-red-500" id="password-confirm" value={confirmRegPassword} onChange={(e) => setConfirmRegPassword(e.target.value)} />
+                      <p className="text-red-500">Las contraseñas no coinciden.</p>
+                    </div>
                   : 
                     <PasswordInput id="password-confirm" value={confirmRegPassword} onChange={(e) => setConfirmRegPassword(e.target.value)} />
                 }
+                <p></p>
                 </div>
 
               <div className="space-y-4">

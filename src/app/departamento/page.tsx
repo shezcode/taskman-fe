@@ -69,10 +69,10 @@ const DepartmentPage = () => {
       {data && (
         data.map(department => {
           return (
-            <div key={department.id_Departamento}>
-              <h1>{department.nombre} - {department.id_Departamento}</h1>
-              <h2>{department.email}</h2>
-              <h4>{department.presupuesto}</h4>
+            <div key={department.Id_Departamento}>
+              <h1>{department.Nombre} - {department.Id_Departamento}</h1>
+              <h2>{department.Email}</h2>
+              <h4>{department.Presupuesto}</h4>
               <Separator />
             </div>
           )

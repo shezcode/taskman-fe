@@ -2,14 +2,14 @@ import { Usuario } from "../types";
 
 export async function fetchUsuarios(): Promise<Usuario[]> {
   try{
-    const res = await fetch("http://localhost:8081/usuario/getAll", {
+    const res = await fetch("http://localhost:8888/taskMan/getUser", {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       },
-      next: {
-        revalidate: 180
-      }
+      //next: {
+      // revalidate: 180
+      //}
     });
 
     if (!res.ok){
@@ -29,7 +29,7 @@ export async function fetchUsuarios(): Promise<Usuario[]> {
 
 export async function fetchUserByDep(dep_name: string): Promise<Usuario[]> {
   try {
-    const res = await fetch(`http://localhost:8081/usuario/dep/${dep_name}`, {
+    const res = await fetch(`http://localhost:8888/taskMan/getUser?depName=${dep_name}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
