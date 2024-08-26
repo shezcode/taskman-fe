@@ -4,11 +4,12 @@ export async function loginUser(email: string, password: string) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email: email, password: password}),
+    body: JSON.stringify({ Email: email, Password: password}),
   });
 
   if (!response.ok) {
-    throw new Error('Login failed');
+    const errorData = await response.json();
+    return errorData;
   }
 
   const data = await response.json();

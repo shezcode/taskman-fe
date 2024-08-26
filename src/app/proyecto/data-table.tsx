@@ -30,6 +30,7 @@ import {
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import Link from "next/link"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -67,7 +68,7 @@ export function DataTable<TData, TValue>({
 
 
   return (
-    <div className="p-2">
+    <div className="p-2 w-full">
       <h1 className="hollow-text text-[50px] self-start">PROYECTOS</h1>
       <div className="flex items-center py-4">
         <div className="flex-1 text-sm text-muted-foreground">
@@ -157,7 +158,6 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
     </div>
   )
 }

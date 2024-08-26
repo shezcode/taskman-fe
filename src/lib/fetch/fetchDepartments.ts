@@ -7,6 +7,7 @@ export async function fetchDepartments(): Promise<Departamento[]> {
       headers: {
         'Content-Type': 'application/json'
       },
+      cache: "no-cache"
     }, );
 
     if (!res.ok){
@@ -15,8 +16,9 @@ export async function fetchDepartments(): Promise<Departamento[]> {
 
     const data: Departamento[] = await res.json();
 
-    return data;
 
+
+    return data;
 
   } catch (e){
     console.error("idek bro", e)

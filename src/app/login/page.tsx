@@ -39,12 +39,12 @@ export default function Login() {
     nombre: string,
     email: string,
     password: string,
-    departamento: dep,
+    id_departamento: dep,
   }>({
     nombre: "",
     email: "",
     password: "",
-    departamento: "frontend"
+    id_departamento: "frontend"
   })
 
   useEffect(() => {
@@ -70,24 +70,42 @@ export default function Login() {
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await registerUser(regUser.nombre, regUser.email, regUser.password, regUser.departamento);
-    toast({
-      title: "Usuario registrado correctamente",
-      description: "Accede para comenzar a utilizar tu cuenta"
-    })
-    router.push("/usuario")
+    if (!passwordError){
+      setRegUser((prev) => ({
+        ...prev,
+        password: regPassword
+      }))
+    }
+    const res = await registerUser(regUser.nombre, regUser.email, regUser.password, regUser.id_departamento);
+    if (!res.error){
+      toast({
+        title: `${res.message}`,
+        description: "Accede para comenzar a utilizar tu cuenta"
+      })
+      router.push("/usuario")
+    } else {
+      toast({
+        title: "Error al realizar el registro",
+        description: `${res.error}`
+      })
+      router.push("/login")
+    }
   }
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(email, password)
-    loginUser(email, password);
-    //toast({
-    //  title: "Login con exito",
-    //  description: "Bienvenido"
-    //})
-    //router.push("/proyecto")
-    
+    const res = await loginUser(email, password);
+    if (!res.error){
+      toast({
+        title: `${res.message}`,
+        description: "Bienvenido"
+      })
+      router.push("/proyecto")
+    } else {
+      toast({
+        title: `${res.error}`,
+      })
+    }
   }
 
   return (

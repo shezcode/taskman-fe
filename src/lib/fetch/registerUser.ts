@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { DEPARTAMENTOS, getCurrentDateTimestamp } from "../utils";
 
 export type dep = "frontend" | "backend" | "ui";
@@ -19,16 +18,21 @@ export async function registerUser(nombre: string, email: string, password: stri
         break;
   }
 
-  const date = getCurrentDateTimestamp(); 
-
   try {
     const response = await fetch('http://localhost:8888/taskMan/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nombre: nombre, email: email, password: password, departamento: {id_Departamento: id_Dep}, fe_alta: date}),
+      body: JSON.stringify({ Nombre: nombre, Email: email, Password: password, Id_Departamento: id_Dep }),
     });
+
+    if (response.status === 409){
+      const errorData = await response.json();
+      console.error(errorData.error);
+      return errorData;
+    }
+
 
     if (!response.ok) {
       throw new Error('Register failed');
@@ -40,7 +44,6 @@ export async function registerUser(nombre: string, email: string, password: stri
 
   } catch (e){
     console.error(e)
-    redirect("/error")
   }
 
 }

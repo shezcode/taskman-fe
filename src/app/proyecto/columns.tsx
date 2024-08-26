@@ -16,6 +16,26 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@radix-ui/react-dialog"
 import { DialogHeader } from "@/components/ui/dialog"
+import { deleteProject } from "@/lib/fetch/deleteProject"
+import { toast } from "@/components/ui/use-toast"
+import { capitalizeString } from "@/lib/utils"
+
+
+async function handleDelete(id: string){
+  const res = await deleteProject(id);
+  if (!res.error){
+    toast({
+      title: `${res.message}`,
+    })
+    setTimeout(() => {
+      window.location.href="/proyecto"
+    }, 2000)
+  } else {
+    toast({
+      title: `${res.error}`
+    })
+  }
+}
 
 export const columns: ColumnDef<Project>[] = [
   {
@@ -41,6 +61,10 @@ export const columns: ColumnDef<Project>[] = [
   {
     accessorKey: "Estado",
     header: "Estado",
+    cell: ({row}) => {
+      let str: string = capitalizeString(row.getValue("Estado"));
+      return <div>{str}</div>
+    }
   },
   {
     accessorKey: "Nombre",
@@ -49,6 +73,10 @@ export const columns: ColumnDef<Project>[] = [
   {
     accessorKey: "Prioridad",
     header: "Prioridad",
+    cell: ({row}) => {
+      let str: string = capitalizeString(row.getValue("Prioridad"));
+      return <div>{str}</div>
+    }
   },
   {
     accessorKey: "Presupuesto",
@@ -123,6 +151,7 @@ export const columns: ColumnDef<Project>[] = [
     cell: ({row}) => {
       return (
         <Button 
+          onClick={() => handleDelete(row.original.Id_Proyecto)}
           className="p-2 h-8"
           variant={"ghost"}>
           <Trash2 />

@@ -1,10 +1,12 @@
+import { Estado, Prioridad } from "./enums"
+
 export type Usuario = {
   Id_Usuario: string,
   Nombre: string,
   Email: string,
   Password: string,
   Fe_alta: string,
-  departamento: Departamento
+  Id_Departamento: string 
 }
 
 export type Departamento = {
@@ -23,8 +25,8 @@ export type Project = {
   Fe_actualizacion: string,
   Fe_inicio: string,
   Fe_fin: string,
-  Estado: "En progreso" | "Finalizado" | "Pendiente" | "Cancelado",
-  Prioridad: "Baja" | "Media" | "Alta" | "Urgente",
+  Estado: Estado,
+  Prioridad: Prioridad,
   Presupuesto: number,
-  usuario: Usuario
+  Id_Usuario: string 
 }
