@@ -70,13 +70,11 @@ export default function Login() {
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!passwordError){
-      setRegUser((prev) => ({
-        ...prev,
-        password: regPassword
-      }))
+    const updatedUser = {
+      ...regUser,
+      password: regPassword
     }
-    const res = await registerUser(regUser.nombre, regUser.email, regUser.password, regUser.id_departamento);
+    const res = await registerUser(updatedUser.nombre, updatedUser.email, updatedUser.password, updatedUser.id_departamento);
     if (!res.error){
       toast({
         title: `${res.message}`,
