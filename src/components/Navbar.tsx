@@ -9,7 +9,7 @@ const Navbar = () => {
     <nav className="w-full flex flex-row items-center justify-around my-4">
       <div className="flex flex-row gap-8 items-center justtify-between h-8">
         <div>
-          <Link href="/proyecto" className="font-bold hollow-text text-[32px]">taskMan.</Link>
+          <Link href="/proyecto" className="font-extrabold hollow-text text-[32px]">taskMan.</Link>
         </div>
         <Separator orientation="vertical" className="h-12"/>
         <Button variant={"link"}>

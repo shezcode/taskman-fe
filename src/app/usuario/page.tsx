@@ -1,5 +1,6 @@
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { fetchUsuarios } from "@/lib/fetch/fetchUsuarios";
+import { DEPARTAMENTOS, getKeyByValue } from "@/lib/utils";
 import Link from "next/link";
 
 const UserPage = async () => {
@@ -24,7 +25,7 @@ const UserPage = async () => {
                 <TableCell className="font-medium"><Link className="hover:underline" href={`/usuario/${usuario.Id_Usuario}`}>{usuario.Nombre}</Link></TableCell>
                 <TableCell>{usuario.Email}</TableCell>
                 <TableCell>{usuario.Fe_alta}</TableCell>
-                <TableCell className="text-right">{usuario.departamento.Nombre}</TableCell>
+                <TableCell className="text-right">{getKeyByValue(usuario.Id_Departamento)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -33,4 +34,6 @@ const UserPage = async () => {
   );
 }
 
+
 export default UserPage;
+

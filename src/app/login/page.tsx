@@ -20,6 +20,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "@/components/useAuth";
 import { loginUser } from "@/lib/fetch/loginUser";
 import { dep, registerUser } from "@/lib/fetch/registerUser";
 import { DEPARTAMENTOS } from "@/lib/utils";
@@ -29,6 +30,7 @@ import { FormEvent, useEffect, useState } from "react";
 
 export default function Login() {
 
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [regPassword, setRegPassword] = useState("");
@@ -39,12 +41,12 @@ export default function Login() {
     nombre: string,
     email: string,
     password: string,
-    id_departamento: dep,
+    departamento: dep,
   }>({
     nombre: "",
     email: "",
     password: "",
-    id_departamento: "frontend"
+    departamento: "frontend"
   })
 
   useEffect(() => {
@@ -53,7 +55,6 @@ export default function Login() {
     } else {
       setPasswordError("");
     }
-    console.log(DEPARTAMENTOS.backend)
   }, [regPassword, confirmRegPassword])
 
   const onTabChange = (value: string) => {
@@ -66,6 +67,7 @@ export default function Login() {
 
   const handleSelect = (value: dep) => {
     setRegUser((prev) => ({ ...prev, departamento: value }))
+    console.log(value);
   }
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
@@ -74,7 +76,7 @@ export default function Login() {
       ...regUser,
       password: regPassword
     }
-    const res = await registerUser(updatedUser.nombre, updatedUser.email, updatedUser.password, updatedUser.id_departamento);
+    const res = await registerUser(updatedUser.nombre, updatedUser.email, updatedUser.password, updatedUser.departamento);
     if (!res.error){
       toast({
         title: `${res.message}`,
@@ -107,7 +109,7 @@ export default function Login() {
   }
 
   return (
-    <Tabs value={tab} onValueChange={onTabChange} defaultValue="login" className="w-[400px] mt-8">
+    <Tabs value={tab} onValueChange={onTabChange} defaultValue="login" className="w-[400px] mt-14">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="login">Login</TabsTrigger>
         <TabsTrigger value="register">Crea tu cuenta</TabsTrigger>
@@ -197,6 +199,7 @@ export default function Login() {
                       <SelectItem value="frontend">Frontend</SelectItem>
                       <SelectItem value="backend">Backend</SelectItem>
                       <SelectItem value="ui">UI/UX</SelectItem>
+                      <SelectItem value="hr">HR</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>

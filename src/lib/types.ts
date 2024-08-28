@@ -30,3 +30,21 @@ export type Project = {
   Presupuesto: number,
   Id_Usuario: string 
 }
+
+export type Tarea = {
+  Id_Tarea: string,
+  Nombre: string,
+  Descripcion: string,
+  Asignada_a_Id_Usuario: string,
+  Fe_creacion: string,
+  Fe_limite: string,
+  estado: string,
+  prioridad: string,
+  Id_Proyecto: string
+}
+
+export interface AuthContextType {
+  user: {} | null;
+  login: (email: string, password: string) => Promise<Usuario | null>;
+  logout: () => void;
+}

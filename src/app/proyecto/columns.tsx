@@ -18,7 +18,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } 
 import { DialogHeader } from "@/components/ui/dialog"
 import { deleteProject } from "@/lib/fetch/deleteProject"
 import { toast } from "@/components/ui/use-toast"
-import { capitalizeString } from "@/lib/utils"
+import { capitalizeString, parseCurrency } from "@/lib/utils"
 
 
 async function handleDelete(id: string){
@@ -92,12 +92,7 @@ export const columns: ColumnDef<Project>[] = [
       )
     },
     cell: ({row}) => {
-      const amount = parseFloat(row.getValue("Presupuesto"))
-      const formatted = new Intl.NumberFormat("es-ES", {
-        style: "currency",
-        currency: "EUR",
-      }).format(amount);
-
+      const formatted = parseCurrency(row.original.Presupuesto.toString())
       return <div className="text-right font-medium">{formatted}</div>
     }
   },
@@ -123,7 +118,7 @@ export const columns: ColumnDef<Project>[] = [
               Copiar ID del proyecto
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {window.location.href = `/proyecto/id/${accion.Id_Proyecto}`}}>Ver proyecto</DropdownMenuItem>
+            <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {window.location.href = `/proyecto/${accion.Id_Proyecto}`}}>Ver proyecto</DropdownMenuItem>
             <Dialog>
               <DialogTrigger>
                 <DropdownMenuItem className="hover:cursor-pointer" onSelect={(e) => e.preventDefault()}>

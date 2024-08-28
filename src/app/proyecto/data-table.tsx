@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="p-2 w-full">
-      <h1 className="hollow-text text-[50px] self-start">PROYECTOS</h1>
+      <h1 className="hollow-text font-extrabold text-[50px] self-start">PROYECTOS</h1>
       <div className="flex items-center py-4">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} de{" "}

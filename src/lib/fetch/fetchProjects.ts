@@ -4,7 +4,6 @@ export async function fetchProjects(): Promise<Project[]> {
   try{
     const res = await fetch("http://localhost:8888/taskMan/getProjects", {
       method: 'GET',
-      cache: 'no-cache',
       headers: {
         'Content-Type': 'application/json'
       }
@@ -25,7 +24,7 @@ export async function fetchProjects(): Promise<Project[]> {
   }
 }
 
-export async function fetchProjectsById(id: string): Promise<Project[]> {
+export async function fetchProjectsById(id: string): Promise<Project> {
   try{
     const res = await fetch(`http://localhost:8888/taskMan/getProjects?id=${id}`, {
       method: 'GET',
@@ -38,7 +37,7 @@ export async function fetchProjectsById(id: string): Promise<Project[]> {
       throw new Error(`http error, status: ${res.status}`)
     }
 
-    const data: Project[] = await res.json();
+    const data: Project = await res.json();
 
     return data;
 

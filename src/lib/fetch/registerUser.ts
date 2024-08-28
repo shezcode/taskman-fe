@@ -1,6 +1,6 @@
 import { DEPARTAMENTOS, getCurrentDateTimestamp } from "../utils";
 
-export type dep = "frontend" | "backend" | "ui";
+export type dep = "frontend" | "backend" | "ui" | "hr";
 
 export async function registerUser(nombre: string, email: string, password: string, departamento: dep) {
 
@@ -15,6 +15,9 @@ export async function registerUser(nombre: string, email: string, password: stri
         break;
     case "ui":
         id_Dep = DEPARTAMENTOS.ui
+        break;
+    case "hr": 
+        id_Dep = DEPARTAMENTOS.hr
         break;
   }
 
@@ -40,7 +43,7 @@ export async function registerUser(nombre: string, email: string, password: stri
 
     const data = await response.json();
 
-    return data
+    return data; 
 
   } catch (e){
     console.error(e)

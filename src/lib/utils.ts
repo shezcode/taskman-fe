@@ -6,9 +6,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const DEPARTAMENTOS = {
-  "frontend": "1FA366379D1602EEE063020011ACB300",
-  "backend": "1FA51829E1CB12ECE063020011AC59E3",
-  "ui": "200ED912B1011762E063020011ACA194"
+  "Frontend": "1FA366379D1602EEE063020011ACB300",
+  "Backend": "1FA51829E1CB12ECE063020011AC59E3",
+  "UI": "200ED912B1011762E063020011ACA194",
+  "HR": "20912F05A40B0A51E063020011AC2622"
+}
+
+export function getKeyByValue(value: string) {
+  return Object.keys(DEPARTAMENTOS).find(key => DEPARTAMENTOS[key] === value);
 }
 
 export function getCurrentDateTimestamp() {
@@ -19,6 +24,29 @@ export function getCurrentDateTimestamp() {
 
   return `${year}-${month}-${day}`;
 }
+
+export function parseCurrency(value: string){
+      const amount = parseFloat(value)
+      const formatted = new Intl.NumberFormat("es-ES", {
+        style: "currency",
+        currency: "EUR",
+      }).format(amount);
+      return formatted;
+}
+
+
+export function parseDateString(dateString: string) {
+  const months = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+  
+  const [year, month, day] = dateString.split('-');
+  
+  const dayFormatted = parseInt(day, 10);  // Remove leading zeros from the day
+  const monthFormatted = months[parseInt(month, 10) - 1];  // Get the month abbreviation
+  const yearFormatted = year.slice(-2);  // Get the last two digits of the year
+  
+  return `${dayFormatted} ${monthFormatted} ${yearFormatted}`;
+}
+
 
 export function capitalizeString(str: string): string {
   if (str.length === 0) return str;

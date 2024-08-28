@@ -1,14 +1,3 @@
-export enum Estado {
-  EnProgreso = "En progreso",
-  Finalizado = "Finalizado",
-  Pendiente = "Pendiente",
-  Cancelado = "Cancelado",
-}
+export type Estado = "En progreso" | "Finalizado" | "Pendiente" | "Cancelado";
 
-export enum Prioridad {
-  Baja = "Baja",
-  Media = "Media",
-  Alta = "Alta",
-  Urgente = "Urgente",
-}
-
+export type Prioridad = "BAJA" | "MEDIA" | "ALTA" | "URGENTE";

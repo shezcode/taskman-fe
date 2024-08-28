@@ -51,7 +51,7 @@ const DepartmentPage = () => {
     <div className="py-4 gap-4 flex flex-col items-center w-full ">
       <form 
         onSubmit={handleSearch}
-        className="flex flex-row gap-0"
+        className="flex flex-row gap-0 mb-8"
         action="">
         <div className="relative w-full">
           {searchParam && (
@@ -65,7 +65,6 @@ const DepartmentPage = () => {
           </Button>
         </div>
       </form>
-      <Separator />
       {data && (
         data.map(department => {
           return (
