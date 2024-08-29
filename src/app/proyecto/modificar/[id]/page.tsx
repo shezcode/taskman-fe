@@ -1,4 +1,4 @@
-import ModificarProyectoForm from "@/components/ui/ModificarProyectoForm";
+import ModificarProyectoForm from "@/components/ModificarProyectoForm"; 
 import { Separator } from "@/components/ui/separator";
 import { fetchProjectsById } from "@/lib/fetch/fetchProjects";
 
