@@ -12,27 +12,17 @@ const Navbar = () => {
           <Link href="/proyecto" className="font-extrabold hollow-text text-[32px]">taskMan.</Link>
         </div>
         <Separator orientation="vertical" className="h-12"/>
-        <Button variant={"link"}>
-          <Link href="/usuario">Usuarios</Link>
-        </Button>
+          <Link href="/usuario" className="hover:underline">Usuarios</Link>
         <Separator className="w-4"/>
-        <Button variant={"link"}>
-          <Link href="/proyecto">Proyectos</Link>
-        </Button>
+          <Link href="/proyecto" className="hover:underline">Proyectos</Link>
         <Separator className="w-4"/>
-        <Button variant={"link"}>
-          <Link href="/tarea">Tareas</Link>
-        </Button>
+          <Link href="/tarea" className="hover:underline">Tareas</Link>
         <Separator className="w-4"/>
-        <Button variant={"link"}>
-          <Link href="/departamento">Departamentos</Link>
-        </Button>
+          <Link href="/departamento" className="hover:underline">Departamentos</Link>
 
       </div>
       <div className="flex flex-row gap-8 items-center">
-        <Button variant={"link"}>
-          <Link href="/login">Login</Link>
-        </Button>
+          <Link href="/login" className="hover:underline">Login</Link>
         <ModeToggle></ModeToggle>
       </div>
     </nav>

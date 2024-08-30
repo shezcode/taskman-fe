@@ -34,6 +34,16 @@ export function parseCurrency(value: string){
       return formatted;
 }
 
+export function parseDatePicker(date: Date){
+
+  const year = date.getFullYear(); // Get the year
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Get the month (0-indexed, so +1) and pad with zero if necessary
+  const day = String(date.getDate()).padStart(2, '0'); // Get the day and pad with zero if necessary
+
+  return `${year}-${month}-${day}`; // Return formatted string
+}
+
+
 
 export function parseDateString(dateString: string) {
   const months = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
@@ -63,4 +73,15 @@ export function capitalizeString(str: string): string {
   return capitalizedStr;
 }
 
+export function capitalizeStringWithUnderscore(str: string): string {
+  if (str.length === 0) return str;
+
+  // Convert the entire string to lowercase
+  const lowerStr = str.toLocaleLowerCase();
+
+  // Capitalize the first letter and combine with the rest of the string
+  const capitalizedStr = lowerStr.charAt(0).toLocaleUpperCase() + lowerStr.slice(1);
+
+  return capitalizedStr;
+}
 

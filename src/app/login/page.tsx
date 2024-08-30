@@ -67,7 +67,6 @@ export default function Login() {
 
   const handleSelect = (value: dep) => {
     setRegUser((prev) => ({ ...prev, departamento: value }))
-    console.log(value);
   }
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
@@ -126,11 +125,11 @@ export default function Login() {
             <CardContent className="space-y-2">
               <div className="space-y-1">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" placeholder="example@email.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <Input id="email" type="email" required placeholder="example@email.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password">Contraseña</Label>
-                <PasswordInput id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <PasswordInput id="password" required minLength={2} value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
             </CardContent>
             <CardFooter className="gap-4 flex flex-row justify-between">
@@ -155,6 +154,7 @@ export default function Login() {
               <div className="space-y-2">
                 <Label htmlFor="name">Nombre</Label>
                 <Input id="name" type="text"
+                  required autoComplete="off" minLength={2} maxLength={30}
                   value={regUser.nombre}
                   onChange={(e) => { setRegUser((prev) => ({ ...prev, nombre: e.target.value })) }}
                 />

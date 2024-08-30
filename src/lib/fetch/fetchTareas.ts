@@ -36,6 +36,7 @@ export async function fetchTareaById(id: string): Promise<Tarea> {
       headers: {
         'Content-Type': 'application/json'
       },
+      cache: "no-store",
       //next: {
       // revalidate: 180
       //}

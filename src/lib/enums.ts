@@ -1,3 +1,3 @@
-export type Estado = "En progreso" | "Finalizado" | "Pendiente" | "Cancelado";
+export type Estado = "EN_PROGRESO" | "FINALIZADO" | "PENDIENTE" | "CANCELADO";
 
 export type Prioridad = "BAJA" | "MEDIA" | "ALTA" | "URGENTE";

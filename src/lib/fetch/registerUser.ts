@@ -8,16 +8,16 @@ export async function registerUser(nombre: string, email: string, password: stri
 
   switch (departamento){
     case "frontend":
-        id_Dep = DEPARTAMENTOS.frontend 
+        id_Dep = DEPARTAMENTOS.Frontend;
         break;
     case "backend":
-        id_Dep = DEPARTAMENTOS.backend
+        id_Dep = DEPARTAMENTOS.Backend;
         break;
     case "ui":
-        id_Dep = DEPARTAMENTOS.ui
+        id_Dep = DEPARTAMENTOS.UI
         break;
     case "hr": 
-        id_Dep = DEPARTAMENTOS.hr
+        id_Dep = DEPARTAMENTOS.HR;
         break;
   }
 

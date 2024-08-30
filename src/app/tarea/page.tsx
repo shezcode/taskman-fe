@@ -16,8 +16,6 @@ import {
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { deleteTarea } from "@/lib/fetch/deleteTarea";
-import { toast } from "@/components/ui/use-toast";
 import { DeleteButton } from "@/components/DeleteButton";
 
 const TareaPage = async () => {
@@ -30,12 +28,15 @@ const TareaPage = async () => {
   }
 
   return (
-    <div className="mt-8 w-[60%] h-full flex flex-col items-center justify-center">
+    <div className="mt-8 w-[80%] h-full flex flex-col items-center justify-center">
+      <Link href={"/tarea/crear"} className="self-start my-8">
+        <Button>Crear nueva tarea</Button>
+      </Link>
       <Table className="border-slate border-[1.5px] rounded">
         <TableCaption className="mt-8">Tareas.</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Nombre</TableHead>
+              <TableHead className="">Nombre</TableHead>
               <TableHead>Descripcion</TableHead>
               <TableHead>Fecha de creacion</TableHead>
               <TableHead>Fecha limite</TableHead>
@@ -47,12 +48,12 @@ const TareaPage = async () => {
           <TableBody>
             {data.map((tarea) => (
               <TableRow key={tarea.Id_Tarea}>
-                <TableCell className="font-medium"><Link className="hover:underline" href={`/tarea/${tarea.Id_Tarea}`}>{tarea.Nombre}</Link></TableCell>
+                <TableCell className="font-large w-[20%]"><Link className="hover:underline" href={`/tarea/${tarea.Id_Tarea}`}>{tarea.Nombre}</Link></TableCell>
                 <TableCell>{tarea.Descripcion}</TableCell>
                 <TableCell>{parseDateString(tarea.Fe_creacion)}</TableCell>
                 <TableCell>{parseDateString(tarea.Fe_limite)}</TableCell>
-                <TableCell>{capitalizeString(tarea.estado)}</TableCell>
-                <TableCell>{capitalizeString(tarea.prioridad)}</TableCell>
+                <TableCell>{tarea.Estado}</TableCell>
+                <TableCell>{tarea.Prioridad}</TableCell>
                 <TableCell className="text-right">
                   <Link className="hover:underline" href={`/proyecto/${tarea.Id_Proyecto}`}>
                     {handleProject(tarea.Id_Proyecto)}
@@ -60,7 +61,7 @@ const TareaPage = async () => {
                 </TableCell>
                 <TableCell>
                   <Dialog>
-                    <DialogTrigger>
+                    <DialogTrigger asChild>
                       <Button variant={"destructive"}>
                         <Trash2 className="size-4"/>
                       </Button>
@@ -73,12 +74,17 @@ const TareaPage = async () => {
                         </DialogDescription>
                       </DialogHeader>
                       <DialogFooter className="sm:justify-start">
-                        <DialogClose asChild suppressHydrationWarning>
+                        <DialogClose asChild>
                           <DeleteButton id={tarea.Id_Tarea} />
                         </DialogClose>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
+                </TableCell>
+                <TableCell>
+                  <Link href={`/tarea/modificar/${tarea.Id_Tarea}`}>
+                    <Button>Modificar</Button>
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}

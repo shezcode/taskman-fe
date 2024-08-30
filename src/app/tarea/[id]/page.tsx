@@ -19,7 +19,9 @@ import { fetchTareaById } from "@/lib/fetch/fetchTareas";
 
 export default async function Page({params}: {params: {id: string}} ){
 
-  const data = await fetchTareaById(params.id);
+  const dataArr = await fetchTareaById(params.id);
+
+  const data = dataArr[0];
 
   const usuario = await fetchUserBy("user_id", data.Asignada_a_Id_Usuario);
 
@@ -50,13 +52,13 @@ export default async function Page({params}: {params: {id: string}} ){
             <div className="flex flex-row space-x-1.5 items-center">
               <h2>Estado</h2>
               <MoveRight className="size-4"/>
-              <h3 className="font-bold">{capitalizeString(data.estado)}</h3>
+              <h3 className="font-bold">{capitalizeString(data.Estado)}</h3>
             </div>
             <Separator />
             <div className="flex flex-row space-x-1.5 items-center">
               <h2>Prioridad</h2>
               <MoveRight className="size-4"/>
-              <h3 className="font-bold">{capitalizeString(data.prioridad)}</h3>
+              <h3 className="font-bold">{capitalizeString(data.Prioridad)}</h3>
             </div>
             <Separator />
             <div className="flex flex-row space-x-1.5 items-center">

@@ -1,32 +1,23 @@
-"use client";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import ModificarTareaForm from "@/components/ModificarTareaForm";
 import { Separator } from "@/components/ui/separator";
 import { fetchTareaById } from "@/lib/fetch/fetchTareas";
-import { Tarea } from "@/lib/types";
-import { useEffect, useState } from "react";
+import { fetchUsuarios } from "@/lib/fetch/fetchUsuarios";
 
 
 export default async function Page({params}: {params: {id: string}} ){
 
-  const getData = async () => {
-    const res = await fetchTareaById(params.id)
-    if (res) {
-      return res;
-    }
-  }
+  const data = await fetchTareaById(params.id); 
 
-  useEffect(() => {
-    const data = getData();
-    setTarea(data);
-  }, [getData])
+  console.log(data);
 
-  const [tarea, setTarea] = useState<Tarea>()
+  const users = await fetchUsuarios();
+
 
   return (
-    <div>
+    <div className="w-[50%] mt-8">
       <h1 className="hollow-text text-[32px]">MODIFICAR TAREA</h1>
       <Separator />
+      <ModificarTareaForm data={data} users={users} />
     </div>
   );
 }

@@ -24,6 +24,6 @@ export const DeleteButton: React.FC<DeleteButtonProps> = ({id}) => {
 
 
   return (
-    <Button type="button" suppressHydrationWarning onClick={() => handleDelete(id)}>Borrar tarea</Button>
+    <Button onClick={() => handleDelete(id)}>Borrar tarea</Button>
   );
 }

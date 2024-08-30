@@ -38,8 +38,8 @@ export type Tarea = {
   Asignada_a_Id_Usuario: string,
   Fe_creacion: string,
   Fe_limite: string,
-  estado: Estado,
-  prioridad: Prioridad,
+  Estado: Estado,
+  Prioridad: Prioridad,
   Id_Proyecto: string
 }
 
