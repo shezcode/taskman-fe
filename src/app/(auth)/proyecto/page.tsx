@@ -9,7 +9,7 @@ const ProjectPage = async () => {
   const data = await fetchProjects();
 
   return (
-    <div className=" p-4 mt-12  h-full flex flex-col items-center justify-center">
+    <div className=" p-4 mt-12 border-[1.5px] border-slate rounded-md h-full flex flex-col items-center justify-center">
       <DataTable columns={columns} data={data}/>
       <Link className="self-start mt-8 p-2" href={"/proyecto/crear"}>
         <Button>Crear nuevo proyecto</Button>

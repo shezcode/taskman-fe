@@ -34,7 +34,8 @@ export async function fetchUserBy(param: string, paramValue: string): Promise<Us
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      cache: "no-cache"
     });
 
     if (!res.ok){
@@ -54,7 +55,8 @@ export async function fetchMultipleUsersBy(param: string, paramValue: string): P
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      cache: "no-cache"
     });
 
     if (!res.ok){

@@ -1,6 +1,6 @@
 "use client"
-import { useEffect } from "react";
-import { useUser, UserLog } from "./useUser";
+import { useEffect, useState } from "react";
+import { useUser } from "./useUser";
 import { useLocalStorage } from "./useLocalStorage";
 
 export const useAuth = () => {
@@ -8,14 +8,20 @@ export const useAuth = () => {
   const { user, addUser, removeUser, setUser } = useUser();
   const { getItem } = useLocalStorage();
 
-  useEffect(() => {
-    const user = getItem("user");
-    if (user) {
-      addUser(JSON.parse(user));
-    }
-  }, [addUser, getItem]);
+  const [realUser, setRealUser] = useState("");
 
-  const login = (user: UserLog) => {
+  useEffect(() => {
+    const userData = getItem("user");
+    let finalUser: {email: string};
+    if (userData){
+      setRealUser(userData.replace(/"/g, "").trim());
+    } else {
+      finalUser = {email: "nadie@taskMan.com"}
+    }
+  }, [getItem, addUser, user, setUser])
+
+
+  const login = (user: string) => {
     addUser(user);
   };
 
@@ -23,5 +29,5 @@ export const useAuth = () => {
     removeUser();
   };
 
-  return { user, login, logout, setUser };
+  return { user, login, logout, setUser, realUser };
 };

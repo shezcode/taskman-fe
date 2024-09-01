@@ -6,7 +6,8 @@ export async function fetchProjects(): Promise<Project[]> {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      cache: "no-cache"
     });
 
     if (!res.ok){
@@ -30,7 +31,8 @@ export async function fetchProjectsById(id: string): Promise<Project> {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      cache: "no-cache"
     });
 
     if (!res.ok){

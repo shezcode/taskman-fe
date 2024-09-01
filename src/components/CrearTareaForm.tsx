@@ -18,6 +18,7 @@ import { createTarea } from "@/lib/fetch/createTarea";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn, getCurrentDateTimestamp, parseDatePicker, parseDateString } from "@/lib/utils";
 import { Calendar } from "./ui/calendar";
+import CancelButton from "./CancelButton";
 
 interface crearTareaProps {
   projects: Project[],
@@ -26,16 +27,15 @@ interface crearTareaProps {
 
 const CrearTareaForm: React.FC<crearTareaProps> = ({projects, users}) => {
 
-
-  const [date, setDate] = useState<Date>();
+  const [date, setDate] = useState<Date>(new Date(getCurrentDateTimestamp()));
   const [tarea, setTarea] = useState<Tarea>({
     Id_Tarea: "",
     Nombre: "",
-    Id_Proyecto: "",
+    Id_Proyecto: projects[0].Id_Proyecto,
     Descripcion: "",
     Fe_creacion: "",
     Fe_limite: "",
-    Asignada_a_Id_Usuario: "",
+    Asignada_a_Id_Usuario: users[0].Id_Usuario,
     Estado: "Pendiente",
     Prioridad: "Media"
   })
@@ -45,7 +45,7 @@ const CrearTareaForm: React.FC<crearTareaProps> = ({projects, users}) => {
 
   const handleSearch = async () => {
     if (searchParam !== ""){
-      let newUsers = await fetchMultipleUsersBy("name", searchParam);
+      let newUsers = await fetchMultipleUsersBy("email", searchParam);
       setUserData(newUsers);
     } else {
       setUserData(users);
@@ -87,11 +87,12 @@ const CrearTareaForm: React.FC<crearTareaProps> = ({projects, users}) => {
   }
 
   const handleRefresh = () => {
-    router.refresh();
+    router.back();
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (date){
       const res = await createTarea(tarea.Nombre, tarea.Descripcion, tarea.Asignada_a_Id_Usuario, parseDatePicker(date), tarea.Estado, tarea.Prioridad, tarea.Id_Proyecto);
     
@@ -139,10 +140,12 @@ const CrearTareaForm: React.FC<crearTareaProps> = ({projects, users}) => {
          <Select 
             name="usuario"
             value={tarea.Asignada_a_Id_Usuario}
+            defaultValue={users[0].Id_Usuario}
+            required
             onValueChange={handleSelectUser}
           >
             <SelectTrigger className="w-[50%]">
-              <SelectValue placeholder="Usuario asignado" />
+              <SelectValue placeholder={users[0].Email} defaultValue={users[0].Id_Usuario}/>
             </SelectTrigger>
             <SelectContent>
 
@@ -166,7 +169,7 @@ const CrearTareaForm: React.FC<crearTareaProps> = ({projects, users}) => {
                     return (
                       <SelectItem 
                         className="w-full"
-                        key={user.Id_Usuario} value={user.Id_Usuario}>{user.Nombre}</SelectItem>
+                        key={user.Id_Usuario} value={user.Id_Usuario}>{user.Email}</SelectItem>
                     )
                   })
                 )}
@@ -182,15 +185,17 @@ const CrearTareaForm: React.FC<crearTareaProps> = ({projects, users}) => {
               name="estado"
               value={tarea.Estado}
               onValueChange={handleSelectEstado}
+              required
             >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={tarea.Estado} />
+              <SelectTrigger 
+                className="w-full" 
+              >
+                <SelectValue placeholder={tarea.Estado} defaultValue={tarea.Estado} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>ESTADO</SelectLabel>
                   <SelectItem value={"En_progreso"}>En progreso</SelectItem>
-                  <SelectItem value={"Finalizado"}>Finalizado</SelectItem>
                   <SelectItem value={"Pendiente"}>Pendiente</SelectItem>
                   <SelectItem value={"Cancelado"}>Cancelado</SelectItem>
                 </SelectGroup>
@@ -204,9 +209,10 @@ const CrearTareaForm: React.FC<crearTareaProps> = ({projects, users}) => {
               name="Prioridad"
               value={tarea.Prioridad}
               onValueChange={handleSelectPrioridad}
+              required
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder={tarea.Prioridad}/>
+                <SelectValue placeholder={tarea.Prioridad} defaultValue={tarea.Prioridad} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -254,10 +260,12 @@ const CrearTareaForm: React.FC<crearTareaProps> = ({projects, users}) => {
          <Select 
             name="Proyecto"
             value={tarea.Id_Proyecto}
+            defaultValue={projects[0].Id_Proyecto}
             onValueChange={handleSelectIdProyecto}
+            required
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecciona el proyecto"/>
+              <SelectValue placeholder={projects[0].Nombre} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -281,7 +289,7 @@ const CrearTareaForm: React.FC<crearTareaProps> = ({projects, users}) => {
       </div>
    
       <div className="flex flex-row gap-8">
-        <Button onClick={handleRefresh}>Cancelar</Button>
+        <CancelButton />
         <Button type="submit">Crear</Button>
       </div>
     </form>

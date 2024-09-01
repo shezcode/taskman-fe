@@ -11,7 +11,7 @@ export default async function Page({params}: {params: {id: string}} ){
     <div className="mt-8 w-[50%]">
       <h1 className="hollow-text font-extrabold text-[32px]">MODIFICAR PROYECTO</h1>
       <Separator />
-      <ModificarProyectoForm {...data} />
+      <ModificarProyectoForm data={data} />
     </div>
   );
 }

@@ -19,6 +19,7 @@ import { DialogHeader } from "@/components/ui/dialog"
 import { deleteProject } from "@/lib/fetch/deleteProject"
 import { toast } from "@/components/ui/use-toast"
 import { capitalizeString, parseCurrency } from "@/lib/utils"
+import { revalidatePath } from "next/cache"
 
 
 async function handleDelete(id: string){
@@ -119,23 +120,6 @@ export const columns: ColumnDef<Project>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="hover:cursor-pointer" onClick={() => {window.location.href = `/proyecto/${accion.Id_Proyecto}`}}>Ver proyecto</DropdownMenuItem>
-            <Dialog>
-              <DialogTrigger>
-                <DropdownMenuItem className="hover:cursor-pointer" onSelect={(e) => e.preventDefault()}>
-                  Borrar proyecto 
-                </DropdownMenuItem>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-                  <DialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
-                  </DialogDescription>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-
             </DropdownMenuContent>
         </DropdownMenu>
       )

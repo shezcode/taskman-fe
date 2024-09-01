@@ -16,12 +16,11 @@ import { Separator } from "@/components/ui/separator";
 import { fetchUserBy } from "@/lib/fetch/fetchUsuarios";
 import Link from "next/link";
 import { fetchTareaById } from "@/lib/fetch/fetchTareas";
+import VolverButton from "@/components/VolverButton";
 
 export default async function Page({params}: {params: {id: string}} ){
 
-  const dataArr = await fetchTareaById(params.id);
-
-  const data = dataArr[0];
+  const data = await fetchTareaById(params.id);
 
   const usuario = await fetchUserBy("user_id", data.Asignada_a_Id_Usuario);
 
@@ -31,6 +30,7 @@ export default async function Page({params}: {params: {id: string}} ){
     <div className="mt-8">
       <Card className="w-[350px]">
         <CardHeader>
+          <h1 className="hollow-text font-bold text-[32px] ">TAREA: </h1>
           <CardTitle>{data.Nombre}</CardTitle>
           <CardDescription>{data.Descripcion}</CardDescription>
         </CardHeader>
@@ -70,6 +70,7 @@ export default async function Page({params}: {params: {id: string}} ){
                 </Link>
               </h3>
             </div>
+            <Separator />
             <div className="flex flex-row space-x-1.5 items-center">
               <h2>Proyecto al que pertenece</h2>
               <MoveRight className="size-4"/>
@@ -82,11 +83,8 @@ export default async function Page({params}: {params: {id: string}} ){
           </div>
 
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button 
-            variant="outline">
-            <Link href={"/tarea"}>Volver</Link>
-          </Button>
+        <CardFooter className="flex justify-between mt-4">
+          <VolverButton />
           <Button>
             <Link href={`/tarea/modificar/${data.Id_Tarea}`}>
               Modificar tarea 

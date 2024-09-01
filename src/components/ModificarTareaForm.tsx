@@ -1,8 +1,11 @@
 "use client"
-import { Tarea, Usuario } from "@/lib/types"
+
+
+import { format } from "date-fns"
+import { Project, Tarea, Usuario } from "@/lib/types"
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
 import { Estado, Prioridad } from "@/lib/enums";
 import { Textarea } from "./ui/textarea";
@@ -10,14 +13,23 @@ import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
 import { modificarTarea } from "@/lib/fetch/modificarTarea";
 import { toast } from "./ui/use-toast";
+import { CalendarIcon, Search, X } from "lucide-react";
+import { fetchMultipleUsersBy } from "@/lib/fetch/fetchUsuarios";
+import { createTarea } from "@/lib/fetch/createTarea";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { cn, getCurrentDateTimestamp, parseDatePicker, parseDateString } from "@/lib/utils";
+import { Calendar } from "./ui/calendar";
+import CancelButton from "./CancelButton";
 
 interface ModificarTareaFormProps {
   data: Tarea;  
+  projects: Project[];
   users: Usuario[]; 
 }
 
-const ModificarTareaForm: React.FC<ModificarTareaFormProps> = ({ data, users }) => {
+const ModificarTareaForm: React.FC<ModificarTareaFormProps> = ({ data, projects, users }) => {
 
+  const [date, setDate] = useState<Date>(new Date(data.Fe_limite));
   const [tarea, setTarea] = useState<Tarea>({
     Id_Tarea: data.Id_Tarea,
     Nombre: data.Nombre,
@@ -28,9 +40,35 @@ const ModificarTareaForm: React.FC<ModificarTareaFormProps> = ({ data, users }) 
     Asignada_a_Id_Usuario: data.Asignada_a_Id_Usuario,
     Estado: data.Estado,
     Prioridad: data.Prioridad
-    })
+  })
 
-    const router = useRouter();
+  const [userData, setUserData] = useState<Usuario[]>(users);
+  const [searchParam, setSearchParam] = useState<string>("");
+
+  const handleSearch = async () => {
+    if (searchParam !== ""){
+      let newUsers = await fetchMultipleUsersBy("email", searchParam);
+      setUserData(newUsers);
+    } else {
+      setUserData(users);
+    }
+  }
+
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchParam(e.target.value);
+  }
+
+  const handleCancel = () => {
+    setSearchParam("");
+    setUserData(users);
+  }
+
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
 
   const handleSelectUser = (value: string) => {
     setTarea((prev) => ({ ...prev, Asignada_a_Id_Usuario: value }))
@@ -44,25 +82,30 @@ const ModificarTareaForm: React.FC<ModificarTareaFormProps> = ({ data, users }) 
     setTarea((prev) => ({...prev, Prioridad: value}))
   }
 
-  const handleRefresh = () => {
-    router.refresh();
+  const handleSelectIdProyecto = (value: string) => {
+    setTarea((prev) => ({...prev, Id_Proyecto: value}))
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await modificarTarea(tarea);
-    if (!res.error){
-      toast({
-        title: `${res.message}`
-      })
-      setTimeout(() => {
-        window.location.href="/tarea"
-      }, 2000)
-    } else {
-      toast({
-        title: `${res.error}`,
-      })
+
+    if (date){
+      const res = await modificarTarea(tarea);
+    
+      if (!res.error){
+        toast({
+          title: `${res.message}`
+        })
+        setTimeout(() => {
+          window.location.href="/tarea"
+        }, 2000)
+      } else {
+        toast({
+          title: `${res.error}`,
+        })
+      }
     }
+
   }
 
 
@@ -93,16 +136,31 @@ const ModificarTareaForm: React.FC<ModificarTareaFormProps> = ({ data, users }) 
          <Select 
             name="usuario"
             value={tarea.Asignada_a_Id_Usuario}
+            required
             onValueChange={handleSelectUser}
           >
             <SelectTrigger className="w-[50%]">
-              <SelectValue placeholder="Usuario asignado" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
+
+              <div className="relative w-full">
+                {searchParam && (
+                  <Button variant={"ghost"} onClick={handleCancel} className="absolute top-0 left-0 w-12">
+                    <X className="w-full"/>
+                  </Button>
+                )}
+                <Input className="w-80 px-12" aria-label="Search" value={searchParam} onChange={handleChange} onKeyDown={handleEnter}/>
+                <Button  onClick={handleSearch} variant={"ghost"} className="absolute top-0 right-0">
+                  <Search />
+                </Button>
+              </div>
+
               <SelectGroup>
+
                 <SelectLabel></SelectLabel>
-                {users && (
-                  users.map(user => {
+                {userData && (
+                  userData.map(user => {
                     return (
                       <SelectItem 
                         className="w-full"
@@ -122,9 +180,12 @@ const ModificarTareaForm: React.FC<ModificarTareaFormProps> = ({ data, users }) 
               name="estado"
               value={tarea.Estado}
               onValueChange={handleSelectEstado}
+              required
             >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={tarea.Estado} />
+              <SelectTrigger 
+                className="w-full" 
+              >
+                <SelectValue placeholder={tarea.Estado} defaultValue={tarea.Estado} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -144,9 +205,10 @@ const ModificarTareaForm: React.FC<ModificarTareaFormProps> = ({ data, users }) 
               name="Prioridad"
               value={tarea.Prioridad}
               onValueChange={handleSelectPrioridad}
+              required
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder={tarea.Prioridad}/>
+                <SelectValue placeholder={tarea.Prioridad} defaultValue={tarea.Prioridad} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -160,8 +222,68 @@ const ModificarTareaForm: React.FC<ModificarTareaFormProps> = ({ data, users }) 
             </Select>
         </div>
       </div>
+
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant={"outline"}
+            className={cn(
+              "w-[240px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={date}
+            required
+            onSelect={setDate} 
+            initialFocus
+            disabled={(date) =>
+              date < new Date(getCurrentDateTimestamp()) || date > new Date("2050-01-01")
+            }
+          />
+        </PopoverContent>
+      </Popover>
+
+      <div className="flex flex-col w-[50%] gap-2">
+        <Label htmlFor="proyecto">Proyecto asignado</Label>  
+         <Select 
+            name="Proyecto"
+            value={tarea.Id_Proyecto}
+            onValueChange={handleSelectIdProyecto}
+            required
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Proyecto</SelectLabel>
+
+                {projects && (
+                  projects.map(project => {
+                    return (
+                      <SelectItem 
+                        className="w-full"
+                        key={project.Id_Proyecto} value={project.Id_Proyecto}>{project.Nombre}</SelectItem>
+                    )
+                  })
+                )}
+
+
+
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+      </div>
+   
       <div className="flex flex-row gap-8">
-        <Button onClick={handleRefresh}>Cancelar</Button>
+        <CancelButton />
         <Button type="submit">Modificar</Button>
       </div>
     </form>

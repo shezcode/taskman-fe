@@ -26,12 +26,16 @@ import { Separator } from "@/components/ui/separator";
 import { fetchUserBy } from "@/lib/fetch/fetchUsuarios";
 import Link from "next/link";
 import { Router } from "next/router";
+import { fetchDepById } from "@/lib/fetch/fetchDepartments";
+import VolverButton from "@/components/VolverButton";
 
 export default async function Page({params}: {params: {id: string}} ){
 
   const data = await fetchProjectsById(params.id);
 
   const usuario = await fetchUserBy("user_id", data.Id_Usuario);
+
+  const departamento = await fetchDepById(usuario.Id_Departamento);
 
   return (
     <div className="mt-8">
@@ -83,14 +87,20 @@ export default async function Page({params}: {params: {id: string}} ){
               </h3>
             </div>
 
+            <div className="flex flex-row space-x-1.5 items-center">
+              <h2>Departamento</h2>
+              <MoveRight className="size-4"/>
+              <h3 className="">
+                <Link href={`/departamento/${departamento.Id_Departamento}`}>
+                  {departamento.Nombre}
+                </Link>
+              </h3>
+            </div>
           </div>
 
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button 
-            variant="outline">
-            <Link href={"/proyecto"}>Volver</Link>
-          </Button>
+          <VolverButton />
           <Button>
             <Link href={`/proyecto/modificar/${data.Id_Proyecto}`}>
               Modificar proyecto

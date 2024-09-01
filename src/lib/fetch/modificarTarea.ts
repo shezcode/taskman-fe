@@ -14,6 +14,7 @@ export async function modificarTarea(tarea: Tarea) {
       Asignada_a_Id_Usuario: tarea.Asignada_a_Id_Usuario,
       Estado: tarea.Estado.replace(/ /g, '_'),
       Prioridad: tarea.Prioridad,
+      Id_Proyecto: tarea.Id_Proyecto,
       Id_Tarea: tarea.Id_Tarea
     }),
   });

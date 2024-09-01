@@ -31,6 +31,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { Separator } from "@/components/ui/separator"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -69,7 +70,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="p-2 w-full">
-      <h1 className="hollow-text font-extrabold text-[50px] self-start">PROYECTOS</h1>
+      <h1 className="hollow-text font-extrabold text-[40px] self-start">PROYECTOS</h1>
+      <Separator className="mb-4"/>
       <div className="flex items-center py-4">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} de{" "}

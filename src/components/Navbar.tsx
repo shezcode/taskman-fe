@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ModeToggle } from "./ui/mode-toggle";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
+import { Logout } from "./Logout";
 
 const Navbar = () => {
   return (
@@ -22,7 +23,7 @@ const Navbar = () => {
 
       </div>
       <div className="flex flex-row gap-8 items-center">
-          <Link href="/login" className="hover:underline">Login</Link>
+        <Logout />
         <ModeToggle></ModeToggle>
       </div>
     </nav>
