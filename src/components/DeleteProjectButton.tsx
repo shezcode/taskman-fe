@@ -20,6 +20,12 @@ export const DeleteProjectButton: React.FC<DeleteButtonProps> = ({id}) => {
         title: `${res.message}`
       })
       router.refresh()
+    } else {
+      toast({
+        title: `${res.error}`,
+        description: "Refrescando la pagina..."
+      })
+      router.refresh();
     }
   }
 

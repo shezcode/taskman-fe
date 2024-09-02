@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { PasswordInput } from "@/components/ui/password-input"
 import { SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import {
   Tabs,
   TabsContent,
@@ -116,8 +117,9 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <h1 className="hollow-text text-[42px]"></h1> 
+    <div className="mt-8 p-6 border-[1.5px] border-slate rounded-xl ">
+      <h1 className="hollow-text font-extrabold text-[42px]">taskMan</h1> 
+      <Separator />
       <Tabs value={tab} onValueChange={onTabChange} defaultValue="login" className="w-[400px] mt-14">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="login">Login</TabsTrigger>
@@ -222,6 +224,11 @@ export default function Login() {
           </form>
         </TabsContent>
       </Tabs>
+      <div className="w-full self-end text-right mt-24">
+        <h2 className="italic">El mundo <strong>necesitaba</strong> un task manager mas.</h2>
+        <h3 className=""></h3>
+
+      </div>
     </div>
   )
 }

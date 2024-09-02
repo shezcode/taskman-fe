@@ -9,7 +9,7 @@ import { Departamento } from "@/lib/types";
 import { Search, X } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
-import { getKeyByValue } from "@/lib/utils";
+import { getKeyByValue, parseCurrency } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 
 const DepartmentPage = () => {
@@ -107,7 +107,7 @@ const DepartmentPage = () => {
                 <TableHead className="w-[100px]">Nombre</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Fecha de alta</TableHead>
-                <TableHead className="text-right">Departamento</TableHead>
+                <TableHead className="text-right">Presupuesto</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -116,7 +116,7 @@ const DepartmentPage = () => {
                   <TableCell className="font-medium"><Link className="hover:underline" href={`/departamento/${department.Id_Departamento}`}>{department.Nombre}</Link></TableCell>
                   <TableCell>{department.Email}</TableCell>
                   <TableCell>{department.Fe_creacion}</TableCell>
-                  <TableCell className="text-right">{getKeyByValue(department.Id_Departamento)}</TableCell>
+                  <TableCell className="text-right">{parseCurrency(department.Presupuesto.toString())}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
