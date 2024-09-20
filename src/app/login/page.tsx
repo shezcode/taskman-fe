@@ -22,10 +22,8 @@ import {
 } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/components/useAuth";
-import { UserLog } from "@/components/useUser";
 import { loginUser } from "@/lib/fetch/loginUser";
 import { dep, registerUser } from "@/lib/fetch/registerUser";
-import { DEPARTAMENTOS } from "@/lib/utils";
 import { Select } from "@radix-ui/react-select";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
@@ -50,7 +48,7 @@ export default function Login() {
     departamento: "frontend"
   })
 
-  const {user, setUser, login} = useAuth();
+  const { setUser, login } = useAuth();
 
   useEffect(() => {
     if (regPassword !== confirmRegPassword) {
@@ -79,7 +77,7 @@ export default function Login() {
       password: regPassword
     }
     const res = await registerUser(updatedUser.nombre, updatedUser.email, updatedUser.password, updatedUser.departamento);
-    if (!res.error){
+    if (!res.error) {
       toast({
         title: `${res.message}`,
         description: "Accede para comenzar a utilizar tu cuenta"
@@ -97,7 +95,7 @@ export default function Login() {
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await loginUser(email, password);
-    if (!res.error){
+    if (!res.error) {
 
       // Set user using the login function that updates both context and localStorage
       login(email);
@@ -118,7 +116,7 @@ export default function Login() {
 
   return (
     <div className="mt-8 p-6 border-[1.5px] border-slate rounded-xl ">
-      <h1 className="hollow-text font-extrabold text-[42px]">taskMan</h1> 
+      <h1 className="hollow-text font-extrabold text-[42px]">taskMan</h1>
       <Separator />
       <Tabs value={tab} onValueChange={onTabChange} defaultValue="login" className="w-[400px] mt-14">
         <TabsList className="grid w-full grid-cols-2">
@@ -137,7 +135,7 @@ export default function Login() {
               <CardContent className="space-y-2">
                 <div className="space-y-1">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" required placeholder="example@email.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                  <Input id="email" type="email" required placeholder="example@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="password">Contraseña</Label>
@@ -184,20 +182,20 @@ export default function Login() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password-confirm">Confirma tu contraseña</Label>
-                  {passwordError 
-                    ? 
-                      <div>
-                        <PasswordInput className="border-[1.5px] border-red-500" id="password-confirm" value={confirmRegPassword} onChange={(e) => setConfirmRegPassword(e.target.value)} />
-                        <p className="text-red-500">Las contraseñas no coinciden.</p>
-                      </div>
-                    : 
-                      <PasswordInput id="password-confirm" value={confirmRegPassword} onChange={(e) => setConfirmRegPassword(e.target.value)} />
+                  {passwordError
+                    ?
+                    <div>
+                      <PasswordInput className="border-[1.5px] border-red-500" id="password-confirm" value={confirmRegPassword} onChange={(e) => setConfirmRegPassword(e.target.value)} />
+                      <p className="text-red-500">Las contraseñas no coinciden.</p>
+                    </div>
+                    :
+                    <PasswordInput id="password-confirm" value={confirmRegPassword} onChange={(e) => setConfirmRegPassword(e.target.value)} />
                   }
                   <p></p>
-                  </div>
+                </div>
 
                 <div className="space-y-4">
-                  <Select 
+                  <Select
                     name="departamento"
                     value={regUser.departamento}
                     onValueChange={handleSelect}

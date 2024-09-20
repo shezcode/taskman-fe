@@ -1,7 +1,6 @@
 import { Estado, Prioridad } from "../enums";
 
-export async function createProject(nombre: string, descripcion: string,
-                                    fe_inicio: Date, fe_fin: Date, estado: Estado, prioridad: Prioridad, presupuesto: number, id_usuario: string) {
+export async function createProject(nombre: string, descripcion: string, fe_inicio: Date, fe_fin: Date, estado: Estado, prioridad: Prioridad, presupuesto: number, id_usuario: string) {
   try{
     const res = await fetch(`http://localhost:8888/taskMan/createProject`, {
       method: 'POST',

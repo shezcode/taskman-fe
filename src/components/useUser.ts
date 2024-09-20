@@ -1,6 +1,6 @@
 "use client"
 import { useContext } from "react";
-import { AuthContext } from "./AuthContext"; 
+import { AuthContext } from "./AuthContext";
 import { useLocalStorage } from "./useLocalStorage";
 
 export const useUser = () => {

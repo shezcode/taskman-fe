@@ -1,16 +1,16 @@
 import { Departamento } from "../types";
 
 export async function fetchDepartments(): Promise<Departamento[]> {
-  try{
+  try {
     const res = await fetch("http://localhost:8888/taskMan/getDepBy", {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       },
       cache: "no-cache"
-    }, );
+    },);
 
-    if (!res.ok){
+    if (!res.ok) {
       throw new Error(`http error, status: ${res.status}`)
     }
 
@@ -20,23 +20,23 @@ export async function fetchDepartments(): Promise<Departamento[]> {
 
     return data;
 
-  } catch (e){
+  } catch (e) {
     console.error("idek bro", e)
     throw e;
   }
 }
 
 export async function fetchDepBy(param: string, value: string): Promise<Departamento[]> {
-  try{
+  try {
     const res = await fetch(`http://localhost:8888/taskMan/getDepBy?${param}=${value}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       },
-      cache:"no-cache"
+      cache: "no-cache"
     });
 
-    if (!res.ok){
+    if (!res.ok) {
       throw new Error(`http error, status: ${res.status}`)
     }
 
@@ -45,14 +45,14 @@ export async function fetchDepBy(param: string, value: string): Promise<Departam
     return data;
 
 
-  } catch (e){
+  } catch (e) {
     console.error("idek bro", e)
     throw e;
   }
 }
 
 export async function fetchDepById(id: string): Promise<Departamento> {
-  try{
+  try {
     const res = await fetch(`http://localhost:8888/taskMan/getDepBy?id=${id}`, {
       method: 'GET',
       headers: {
@@ -60,7 +60,7 @@ export async function fetchDepById(id: string): Promise<Departamento> {
       }
     });
 
-    if (!res.ok){
+    if (!res.ok) {
       throw new Error(`http error, status: ${res.status}`)
     }
 
@@ -69,7 +69,7 @@ export async function fetchDepById(id: string): Promise<Departamento> {
     return data;
 
 
-  } catch (e){
+  } catch (e) {
     console.error("idek bro", e)
     throw e;
   }
